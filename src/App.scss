@@ -1,16 +1,18 @@
 .App {
-  text-align: center;
-  width: 100vw;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  color: black;
+	text-align: center;
+	width: 100vw;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	color: black;
+	justify-content: center;
+	align-items: center;
 }
 
 @media (prefers-color-scheme: dark) {
-	.App, body{
+	.App,
+	body {
 		background: #252329;
 		color: white;
 	}
 }
-
