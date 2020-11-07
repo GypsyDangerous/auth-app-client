@@ -1,19 +1,19 @@
-import React, { useRef, useState, useEffect, useCallback, useReducer } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 import "./Form.css"
 import "./Checkbox.css"
-import { validate } from "../util/validators"
+// import { validate } from "../util/validators"
 
-const Checkbox = props => {
+const Checkbox = ({value, ...props}) => {
     const { id, onInput } = props;
     const checkRef = useRef(false)
     const [checked, setCheck] = useState(false)
 
     useEffect(() => {
-        if(props.value){
-            setCheck(props.value)
+        if(value){
+            setCheck(value)
         }
-    }, [])
+    }, [value])
 
     useEffect(() => {
         onInput(id, checked, true)
