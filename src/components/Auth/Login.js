@@ -7,19 +7,34 @@ import LockIcon from "@material-ui/icons/Lock";
 import Button from "../shared/FormElements/Button";
 import { Link } from "react-router-dom";
 import IconButton from "../shared/IconButton";
+import { useForm } from "../../hooks/form-hook";
 import Icons from "./Icons";
 
 const Login = () => {
+	const [formState, inputHandler, setFormData] = useForm(
+		{
+			email: {
+				value: "",
+				isValid: false,
+			},
+			password: {
+				value: "",
+				isValid: false,
+			},
+		},
+		false
+	);
+
+	const handleFormSubmit = e => {
+		e.preventDefault();
+	};
+
 	return (
 		<div>
 			<h1>Login</h1>
-			<Form
-				onSubmit={e => {
-					e.preventDefault();
-				}}
-			>
+			<Form onSubmit={handleFormSubmit}>
 				<Input
-					onInput={() => {}}
+					onInput={inputHandler}
 					placeholder={
 						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
 							<span style={{ marginRight: "1rem" }}>
@@ -34,7 +49,7 @@ const Login = () => {
 					required
 				/>
 				<Input
-					onInput={() => {}}
+					onInput={inputHandler}
 					placeholder={
 						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
 							<span style={{ marginRight: "1rem" }}>
@@ -64,4 +79,3 @@ const Login = () => {
 };
 
 export default Login;
-
