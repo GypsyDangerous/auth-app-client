@@ -15,4 +15,11 @@ const Form = styled.form`
 	}
 `;
 
+export const Footer = styled.div`
+	text-align: center;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+`
+
 export default Form;

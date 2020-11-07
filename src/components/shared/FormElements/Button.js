@@ -30,8 +30,15 @@ const ButtonElement = props => {
 		);
 	}
 	return (
-		<Button type="submit" variant="contained" color="primary">
-			{props.children || props.value}
+		<Button
+			type={props.type}
+			disabled={props.disabled}
+			value={props.value}
+			onClick={props.onClick || function () {}}
+			variant="contained"
+			color="primary"
+		>
+			{props.children}
 		</Button>
 	);
 };
