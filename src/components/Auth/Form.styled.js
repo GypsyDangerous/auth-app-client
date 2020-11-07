@@ -6,8 +6,8 @@ const Form = styled.form`
 	flex-direction: column;
 	@media (prefers-color-scheme: dark) {
 		* {
-			color: white !important;
-			border-color: white !important;
+			color: #aaa !important;
+			border-color: #aaa !important;
 		}
 	}
 	& > * {
