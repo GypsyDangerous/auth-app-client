@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
@@ -45,6 +45,11 @@ const CustomInput = props => {
 		isValid: !!props.value,
 		isTouched: false,
 	});
+	const [labelSize, setLabelSize] = useState(0);
+
+	const calculateLabelSize = node => {
+		setLabelSize(node?.offsetWidth);
+	};
 
 	let { id, onInput } = props;
 	const { value, isValid } = inputState;
@@ -95,25 +100,32 @@ const CustomInput = props => {
 			className={clsx(classes.margin, classes.textField)}
 			variant="outlined"
 		>
-			<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+			<InputLabel ref={calculateLabelSize} htmlFor="outlined-adornment-password">
+				{props.placeholder}
+			</InputLabel>
 			<OutlinedInput
 				id="outlined-adornment-password"
-				type={props.showPassword ? "text" : "password"}
+				type={props.password ? (props.showPassword ? "text" : "password") : "text"}
 				value={inputState.value}
 				onChange={changeHandler}
+				startAdornment={props.icon}
 				endAdornment={
-					<InputAdornment position="end">
-						<IconButton
-							aria-label="toggle password visibility"
-							//   onClick={handleClickShowPassword}
-							//   onMouseDown={handleMouseDownPassword}
-							edge="end"
-						>
-							{props.showPassword ? <Visibility /> : <VisibilityOff />}
-						</IconButton>
-					</InputAdornment>
+					props.password ? (
+						<InputAdornment position="end">
+							<IconButton
+								aria-label="toggle password visibility"
+								//   onClick={handleClickShowPassword}
+								//   onMouseDown={handleMouseDownPassword}
+								edge="end"
+							>
+								{props.showPassword ? <Visibility /> : <VisibilityOff />}
+							</IconButton>
+						</InputAdornment>
+					) : (
+						<></>
+					)
 				}
-				labelWidth={70}
+				labelWidth={labelSize}
 			/>
 		</FormControl>
 	);

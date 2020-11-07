@@ -1,6 +1,9 @@
 import React from "react";
 import Input from "../shared/FormElements/Input";
-import Form from "./Form.styled"
+import Form from "./Form.styled";
+import MailIcon from "@material-ui/icons/Mail";
+import { PlaceHolder } from "./Auth.styled";
+import LockIcon from "@material-ui/icons/Lock";
 
 const Login = () => {
 	return (
@@ -11,8 +14,32 @@ const Login = () => {
 				you to choose
 			</p>
 			<Form>
-				<Input onInput={() => {}} placeholder="Email" type="email" required/>
-				<Input onInput={() => {}} placeholder="Password" type="password" required/>
+				<Input
+					onInput={() => {}}
+					placeholder={
+						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
+							<span style={{ marginRight: "1rem" }}>
+								<MailIcon />
+							</span>{" "}
+							Email
+						</PlaceHolder>
+					}
+					type="email"
+					required
+				/>
+				<Input
+					onInput={() => {}}
+					placeholder={
+						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
+							<span style={{ marginRight: "1rem" }}>
+								<LockIcon />
+							</span>{" "}
+							Password
+						</PlaceHolder>
+					}
+					type="password"
+					required
+				/>
 			</Form>
 		</div>
 	);

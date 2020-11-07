@@ -25,4 +25,10 @@ const Auth = styled.div`
 	}
 `;
 
+export const PlaceHolder = styled.span`
+	display: flex;
+	align-items: center;
+	transform: translateY(-5px);
+`
+
 export default Auth;

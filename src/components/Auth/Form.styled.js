@@ -4,10 +4,13 @@ const Form = styled.form`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	* {
-		color: white !important;
+	@media (prefers-color-scheme: dark) {
+		* {
+			color: white !important;
+			border-color: white !important;
+		}
 	}
-	& > *{
+	& > * {
 		width: 100%;
 	}
 `;
