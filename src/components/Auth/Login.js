@@ -4,6 +4,7 @@ import Form from "./Form.styled";
 import MailIcon from "@material-ui/icons/Mail";
 import { PlaceHolder } from "./Auth.styled";
 import LockIcon from "@material-ui/icons/Lock";
+import Button from "../shared/FormElements/Button";
 
 const Login = () => {
 	return (
@@ -40,6 +41,7 @@ const Login = () => {
 					type="password"
 					required
 				/>
+				<Button>Start Coding Now</Button>
 			</Form>
 		</div>
 	);
