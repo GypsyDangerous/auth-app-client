@@ -4,16 +4,20 @@ import Input from "../shared/FormElements/Input";
 import AuthComponent from "./Auth.styled";
 import Login from "./Login";
 import { ReactComponent as Logo } from "./logo.svg";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import Register from "./Register";
 
-const Auth = () => {
-	const { type } = useParams();
-
+const Auth = ({ match }) => {
 	return (
 		<AuthComponent>
-			<span style={{display: "inline-block", marginBottom: "1.5rem"}}>
+			<span style={{ display: "inline-block", marginBottom: "1.5rem" }}>
 				<Logo />
 			</span>
-			<Login />
+			<Switch>
+				<Route path={`${match.url}/login`} component={Login} />
+				<Route path={`${match.url}/register`} component={Register} />
+				<Redirect to={`${match.url}/login`} />
+			</Switch>
 		</AuthComponent>
 	);
 };
