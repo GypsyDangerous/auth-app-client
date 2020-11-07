@@ -8,11 +8,16 @@ import Button from "../shared/FormElements/Button";
 import { Link } from "react-router-dom";
 import IconButton from "../shared/IconButton";
 import Icons from "./Icons";
+import PersonIcon from '@material-ui/icons/Person';
 
 const Register = () => {
 	return (
 		<div>
-			<h1>Login</h1>
+			<h1>Join thousands of learners from around the world </h1>
+			<p>
+				Master web development by making real-life projects. There are multiple paths for
+				you to choose
+			</p>
 			<Form
 				onSubmit={e => {
 					e.preventDefault();
@@ -44,15 +49,41 @@ const Register = () => {
 					type="password"
 					required
 				/>
+				<Input
+					onInput={() => {}}
+					placeholder={
+						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
+							<span style={{ marginRight: "1rem" }}>
+								<LockIcon />
+							</span>{" "}
+							Password
+						</PlaceHolder>
+					}
+					type="password"
+					required
+				/>
+				<Input
+					onInput={() => {}}
+					placeholder={
+						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
+							<span style={{ marginRight: "1rem" }}>
+								<LockIcon />
+							</span>{" "}
+							Password
+						</PlaceHolder>
+					}
+					type="password"
+					required
+				/>
 				<ButtonContainer>
-					<Button>Login</Button>
+					<Button>Start Coding Now</Button>
 				</ButtonContainer>
 			</Form>
 			<Footer>
-				<p>or continue with these social profile</p>
+				<p>or continue with one of these social profiles</p>
 				<Icons />
 				<p>
-					Don’t have an account yet? <Link to="/auth/register">Register</Link>{" "}
+					Already have an account? <Link to="/auth/login">Login</Link>{" "}
 				</p>
 			</Footer>
 		</div>

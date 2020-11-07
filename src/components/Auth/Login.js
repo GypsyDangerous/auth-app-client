@@ -12,11 +12,7 @@ import Icons from "./Icons";
 const Login = () => {
 	return (
 		<div>
-			<h1>Join thousands of learners from around the world </h1>
-			<p>
-				Master web development by making real-life projects. There are multiple paths for
-				you to choose
-			</p>
+			<h1>Login</h1>
 			<Form
 				onSubmit={e => {
 					e.preventDefault();
@@ -48,12 +44,25 @@ const Login = () => {
 					type="password"
 					required
 				/>
+				<Input
+					onInput={() => {}}
+					placeholder={
+						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
+							<span style={{ marginRight: "1rem" }}>
+								<LockIcon />
+							</span>{" "}
+							Password
+						</PlaceHolder>
+					}
+					type="password"
+					required
+				/>
 				<ButtonContainer>
-					<Button>Start Coding Now</Button>
+					<Button>Login</Button>
 				</ButtonContainer>
 			</Form>
 			<Footer>
-				<p>or continue with these social profile</p>
+				<p>or continue with one of these social profiles</p>
 				<Icons />
 				<p>
 					Don’t have an account yet? <Link to="/auth/register">Register</Link>{" "}
@@ -64,3 +73,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -8,14 +8,14 @@ const IconButton = styled.button`
 	margin: 0 0.5rem;
 	transition: filter 0.25s;
 	filter: brightness(0.75);
+	&:hover {
+		filter: brightness(.25);
+	}
 	@media (prefers-color-scheme: dark) {
 		filter: brightness(1.25);
 		&:hover {
 			filter: brightness(2);
 		}
-	}
-	&:hover {
-		filter: brightness(.25);
 	}
 `;
 
