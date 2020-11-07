@@ -46,6 +46,7 @@ const CustomInput = props => {
 		isTouched: false,
 	});
 	const [labelSize, setLabelSize] = useState(0);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const calculateLabelSize = node => {
 		setLabelSize(node?.offsetWidth);
@@ -59,7 +60,7 @@ const CustomInput = props => {
 	}, [id, value, isValid, onInput]);
 
 	const changeHandler = e => {
-		dispatch({ type: "CHANGE", val: e.target.value, validators: props.validators });
+		dispatch({ type: "CHANGE", val: e.target.value, validators: props.validators||[] });
 	};
 
 	const touchHandler = () => {
@@ -100,25 +101,31 @@ const CustomInput = props => {
 			className={clsx(classes.margin, classes.textField)}
 			variant="outlined"
 		>
-			<InputLabel ref={calculateLabelSize} htmlFor="outlined-adornment-password">
+			<InputLabel ref={calculateLabelSize} htmlFor={props.id}>
 				{props.placeholder}
 			</InputLabel>
 			<OutlinedInput
-				id="outlined-adornment-password"
-				type={props.password ? (props.showPassword ? "text" : "password") : "text"}
+				required={props.required}
+				id={props.id}
+				name={props.name}
+				type={props.type === "password" ? (showPassword ? "text" : "password") : props.type}
 				value={inputState.value}
 				onChange={changeHandler}
 				startAdornment={props.icon}
 				endAdornment={
-					props.password ? (
+					props.type === "password" ? (
 						<InputAdornment position="end">
 							<IconButton
 								aria-label="toggle password visibility"
-								//   onClick={handleClickShowPassword}
-								//   onMouseDown={handleMouseDownPassword}
+								onClick={() => {
+									setShowPassword(prev => !prev);
+								}}
+								onMouseDown={() => {
+									setShowPassword(prev => !prev);
+								}}
 								edge="end"
 							>
-								{props.showPassword ? <Visibility /> : <VisibilityOff />}
+								{showPassword ? <Visibility /> : <VisibilityOff />}
 							</IconButton>
 						</InputAdornment>
 					) : (

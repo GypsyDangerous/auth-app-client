@@ -29,6 +29,8 @@ const Login = () => {
 						</PlaceHolder>
 					}
 					type="email"
+					id="email"
+					name="email"
 					required
 				/>
 				<Input
@@ -42,19 +44,8 @@ const Login = () => {
 						</PlaceHolder>
 					}
 					type="password"
-					required
-				/>
-				<Input
-					onInput={() => {}}
-					placeholder={
-						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
-							<span style={{ marginRight: "1rem" }}>
-								<LockIcon />
-							</span>{" "}
-							Password
-						</PlaceHolder>
-					}
-					type="password"
+					id="password"
+					name="enter-password"
 					required
 				/>
 				<ButtonContainer>

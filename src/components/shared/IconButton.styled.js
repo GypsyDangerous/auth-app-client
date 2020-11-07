@@ -8,6 +8,7 @@ const IconButton = styled.button`
 	margin: 0 0.5rem;
 	transition: filter 0.25s;
 	filter: brightness(0.75);
+	cursor: pointer;
 	&:hover {
 		filter: brightness(.25);
 	}

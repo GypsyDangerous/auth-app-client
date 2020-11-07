@@ -8,9 +8,33 @@ import Button from "../shared/FormElements/Button";
 import { Link } from "react-router-dom";
 import IconButton from "../shared/IconButton";
 import Icons from "./Icons";
-import PersonIcon from '@material-ui/icons/Person';
+import PersonIcon from "@material-ui/icons/Person";
+import { useForm } from "../../hooks/form-hook";
 
 const Register = () => {
+	const [formState, inputHandler, setFormData] = useForm(
+		{
+			username: {
+				value: "",
+				isValid: false,
+			},
+			email: {
+				value: "",
+				isValid: false,
+			},
+			password: {
+				value: "",
+				isValid: false,
+			},
+		},
+		false
+	);
+
+	const handleFormSubmit = e => {
+		e.preventDefault();
+		console.log(formState);
+	};
+
 	return (
 		<div>
 			<h1>Join thousands of learners from around the world </h1>
@@ -18,13 +42,24 @@ const Register = () => {
 				Master web development by making real-life projects. There are multiple paths for
 				you to choose
 			</p>
-			<Form
-				onSubmit={e => {
-					e.preventDefault();
-				}}
-			>
+			<Form onSubmit={handleFormSubmit}>
 				<Input
-					onInput={() => {}}
+					onInput={inputHandler}
+					placeholder={
+						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
+							<span style={{ marginRight: "1rem" }}>
+								<PersonIcon />
+							</span>{" "}
+							Username
+						</PlaceHolder>
+					}
+					type="text"
+					name="username"
+					id="username"
+					required
+				/>
+				<Input
+					onInput={inputHandler}
 					placeholder={
 						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
 							<span style={{ marginRight: "1rem" }}>
@@ -34,10 +69,12 @@ const Register = () => {
 						</PlaceHolder>
 					}
 					type="email"
+					name="email"
+					id="email"
 					required
 				/>
 				<Input
-					onInput={() => {}}
+					onInput={inputHandler}
 					placeholder={
 						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
 							<span style={{ marginRight: "1rem" }}>
@@ -47,36 +84,13 @@ const Register = () => {
 						</PlaceHolder>
 					}
 					type="password"
+					id="password"
+					name="create-password"
 					required
 				/>
-				<Input
-					onInput={() => {}}
-					placeholder={
-						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
-							<span style={{ marginRight: "1rem" }}>
-								<LockIcon />
-							</span>{" "}
-							Password
-						</PlaceHolder>
-					}
-					type="password"
-					required
-				/>
-				<Input
-					onInput={() => {}}
-					placeholder={
-						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>
-							<span style={{ marginRight: "1rem" }}>
-								<LockIcon />
-							</span>{" "}
-							Password
-						</PlaceHolder>
-					}
-					type="password"
-					required
-				/>
+
 				<ButtonContainer>
-					<Button>Start Coding Now</Button>
+					<Button type="submit">Start Coding Now</Button>
 				</ButtonContainer>
 			</Form>
 			<Footer>
