@@ -1,0 +1,1 @@
+export const daysToMilli = days => days * 86400000;
