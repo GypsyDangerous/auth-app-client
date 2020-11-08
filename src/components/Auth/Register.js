@@ -10,6 +10,8 @@ import IconButton from "../shared/IconButton";
 import Icons from "./Icons";
 import PersonIcon from "@material-ui/icons/Person";
 import { useForm } from "../../hooks/form-hook";
+import { useHttpClient } from "../../hooks/http-hook";
+import { useAuth } from "../../hooks/auth-hook";
 
 const Register = () => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -29,10 +31,25 @@ const Register = () => {
 		},
 		false
 	);
+	const { token, login, logout, userId, isLoggedIn } = useAuth();
+	const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-	const handleFormSubmit = e => {
+	const handleFormSubmit = async e => {
 		e.preventDefault();
-		console.log(formState);
+		const body = {
+			username: formState.inputs.username.value,
+			email: formState.inputs.email.value,
+			password: formState.inputs.password.value,
+		};
+		const response = await sendRequest(
+			`${process.env.REACT_APP_API_URL}/api/v1/auth/register`,
+			"POST",
+			JSON.stringify(body),
+			{
+				"Content-Type": "application/json",
+			}
+		);
+		login(response.userId, response.token);
 	};
 
 	return (

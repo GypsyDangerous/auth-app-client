@@ -8,16 +8,22 @@ import { useUser } from "./contexts/UserContext";
 
 function App() {
 	const { token, login, logout, userId, isLoggedIn } = useAuth();
-	const { setProfilePicture, setUserData } = useUser();
+	const { setProfilePicture, setUserData, userData } = useUser();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
 	useEffect(() => {
-		if (isLoggedIn && userId) {
-			const data = sendRequest(`${process.env.REACT_APP_API_URL}/api/v1/users/get/${userId}`);
-			setUserData(data);
-			setProfilePicture(data.photo);
-		}
+		(async () => {
+			if (isLoggedIn && userId) {
+				const data = await sendRequest(
+					`${process.env.REACT_APP_API_URL}/api/v1/users/get/${userId}`
+				);
+				setUserData(data);
+				setProfilePicture(data.photo);
+			}
+		})();
 	}, [isLoggedIn, userId, setUserData, setProfilePicture, sendRequest]);
+
+	console.log(userData);
 
 	return (
 		<Router>
