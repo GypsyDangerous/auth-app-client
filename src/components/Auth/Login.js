@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../shared/FormElements/Input";
 import Form, { ButtonContainer, Footer } from "./Form.styled";
 import MailIcon from "@material-ui/icons/Mail";
@@ -9,6 +9,9 @@ import { Link } from "react-router-dom";
 import IconButton from "../shared/IconButton";
 import { useForm } from "../../hooks/form-hook";
 import Icons from "./Icons";
+import ErrorText from "../shared/Error.styled";
+import { useAuth } from "../../hooks/auth-hook";
+import { useHttpClient } from "../../hooks/http-hook";
 
 const Login = () => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -25,8 +28,27 @@ const Login = () => {
 		false
 	);
 
-	const handleFormSubmit = e => {
+	const { token, login, logout, userId, isLoggedIn } = useAuth();
+	const { isLoading, error: authError, sendRequest, clearError } = useHttpClient();
+
+	const handleFormSubmit = async e => {
 		e.preventDefault();
+		clearError()
+		const body = {
+			email: formState.inputs.email.value,
+			password: formState.inputs.password.value,
+		};
+		const response = await sendRequest(
+			`${process.env.REACT_APP_API_URL}/api/v1/auth/login`,
+			"POST",
+			JSON.stringify(body),
+			{
+				"Content-Type": "application/json",
+			}
+		);
+		if(response){
+			login(response.userId, response.token);
+		}
 	};
 
 	return (
@@ -63,8 +85,9 @@ const Login = () => {
 					name="enter-password"
 					required
 				/>
+				{authError && <ErrorText className="error">{authError}</ErrorText>}
 				<ButtonContainer>
-					<Button>Login</Button>
+					<Button type="submit">Login</Button>
 				</ButtonContainer>
 			</Form>
 			<Footer>

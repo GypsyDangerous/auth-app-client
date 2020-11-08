@@ -12,6 +12,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import { useForm } from "../../hooks/form-hook";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useAuth } from "../../hooks/auth-hook";
+import ErrorText from "../shared/Error.styled";
 
 const Register = () => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -49,7 +50,9 @@ const Register = () => {
 				"Content-Type": "application/json",
 			}
 		);
-		login(response.userId, response.token);
+		if (response) {
+			login(response.userId, response.token);
+		}
 	};
 
 	return (
@@ -105,7 +108,7 @@ const Register = () => {
 					name="create-password"
 					required
 				/>
-
+				{error && <ErrorText>{error}</ErrorText>}
 				<ButtonContainer>
 					<Button type="submit">Start Coding Now</Button>
 				</ButtonContainer>
