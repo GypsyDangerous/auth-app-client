@@ -37,16 +37,18 @@ export const AuthContextProvider = ({ children }) => {
 		setUserId(null);
 	}, []);
 
-	<AuthContext.Provider
-		value={{
-			isLoggedIn: !!token,
-			token,
-			userId,
-			login,
-			logout,
-			expiryDate
-		}}
-	>
-		{children}
-	</AuthContext.Provider>;
+	return (
+		<AuthContext.Provider
+			value={{
+				isLoggedIn: !!token,
+				token,
+				userId,
+				login,
+				logout,
+				expiryDate,
+			}}
+		>
+			{children}
+		</AuthContext.Provider>
+	);
 };
