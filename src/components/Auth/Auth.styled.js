@@ -8,18 +8,18 @@ const Auth = styled.div`
 	padding: 51px 58px;
 	// height: 640px;
 	h1 {
-		font-size: 18px;
+		font-size: 1.125rem;
 		font-style: normal;
 		font-weight: 600;
-		line-height: 25px;
+		line-height: 1.55rem;
 		letter-spacing: -0.035em;
 		text-align: left;
 	}
 	p {
-		font-size: 16px;
+		font-size: 1rem;
 		font-style: normal;
 		font-weight: 400;
-		line-height: 22px;
+		line-height: 1.4rem;
 		letter-spacing: -0.035em;
 		text-align: left;
 	}
