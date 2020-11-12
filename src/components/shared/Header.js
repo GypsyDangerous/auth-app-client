@@ -11,6 +11,7 @@ import { invertHex } from "../../utils/functions";
 import PersonIcon from "@material-ui/icons/Person";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { useAuth } from "../../hooks/auth-hook";
 
 const HeaderRight = styled.div`
 	position: relative;
@@ -25,6 +26,7 @@ const HeaderRight = styled.div`
 `;
 
 const Chevron = styled.div`
+	cursor: pointer;
 	z-index: 5;
 	transition: 0.25s;
 	transform-origin: center;
@@ -59,6 +61,7 @@ const ProfileItem = styled(motion.li)`
 	transition: 0.25s;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 	&:hover {
 		background: var(--bg);
 	}
@@ -74,9 +77,8 @@ const spring = {
 };
 
 const item = {
-	hidden: { y: 20, opacity: 0, transition: spring },
+	hidden: { y: 20, opacity: 0 },
 	visible: {
-		transition: spring,
 		y: 0,
 		opacity: 1,
 	},
@@ -94,7 +96,7 @@ const container = {
 		transition: {
 			...spring,
 			// when: "beforeChildren",
-			staggerChildren: 0.1,
+			staggerChildren: 0.25,
 		},
 	},
 };
@@ -112,6 +114,7 @@ const Space = styled.span`
 
 const Header = () => {
 	const { userData } = useUser();
+	const { logout } = useAuth();
 	const [profileOpen, setProfileOpen] = useState(false);
 
 	useEffect(() => {
@@ -123,33 +126,34 @@ const Header = () => {
 	return (
 		<StyledHeader>
 			<Logo />
-			<HeaderRight>
-				<div onClick={() => setProfileOpen(prev => !prev)}>
-					{userData ? (
+			{userData ? (
+				<HeaderRight>
+					<div onClick={() => setProfileOpen(prev => !prev)}>
 						<Avatar
 							src={`${process.env.REACT_APP_API_URL}/uploads/images${userData?.photo}`}
 						/>
-					) : (
-						<></>
-					)}
-					<div>{userData?.username}</div>
-					<Chevron open={profileOpen}>
-						<KeyboardArrowDownIcon />
-					</Chevron>
-				</div>
-				<HeaderProfile variants={container} initial="hidden" animate={visible}>
-					<ProfileItem variants={item}>
-						<PersonIcon /> <Space size="medium" /> Profile
-					</ProfileItem>
-					<ProfileItem variants={item}>
-						<SupervisorAccountIcon /> <Space size="medium" /> Group Chat
-					</ProfileItem>
-					<hr />
-					<ProfileItem variants={item} warn>
-						<ExitToAppIcon /> <Space size="medium" /> Logout
-					</ProfileItem>
-				</HeaderProfile>
-			</HeaderRight>
+
+						<div>{userData?.username}</div>
+						<Chevron open={profileOpen}>
+							<KeyboardArrowDownIcon />
+						</Chevron>
+					</div>
+					<HeaderProfile variants={container} initial="hidden" animate={visible}>
+						<ProfileItem variants={item}>
+							<PersonIcon /> <Space size="medium" /> Profile
+						</ProfileItem>
+						<ProfileItem variants={item}>
+							<SupervisorAccountIcon /> <Space size="medium" /> Group Chat
+						</ProfileItem>
+						<hr />
+						<ProfileItem onClick={logout} variants={item} warn>
+							<ExitToAppIcon /> <Space size="medium" /> Logout
+						</ProfileItem>
+					</HeaderProfile>
+				</HeaderRight>
+			) : (
+				<></>
+			)}
 		</StyledHeader>
 	);
 };
