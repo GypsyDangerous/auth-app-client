@@ -7,11 +7,11 @@ import { UserContextProvider } from "./contexts/UserContext";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<AuthContextProvider>
-			<UserContextProvider>
+		<UserContextProvider>
+			<AuthContextProvider>
 				<App />
-			</UserContextProvider>
-		</AuthContextProvider>
+			</AuthContextProvider>
+		</UserContextProvider>
 	</React.StrictMode>,
 	document.getElementById("root")
 );

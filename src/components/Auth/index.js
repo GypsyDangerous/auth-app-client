@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import Input from "../shared/FormElements/Input";
 import AuthComponent from "./Auth.styled";
@@ -6,8 +6,17 @@ import Login from "./Login";
 import { ReactComponent as Logo } from "./logo.svg";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Register from "./Register";
+import { useAuth } from "../../hooks/auth-hook";
 
-const Auth = ({ match }) => {
+const Auth = ({ match, history }) => {
+	const { isLoggedIn } = useAuth();
+	useEffect(() => {
+		if (isLoggedIn) {
+			setTimeout(() => {
+				history.push("/");
+			}, 100);
+		}
+	}, [isLoggedIn, history]);
 	return (
 		<AuthComponent>
 			<span style={{ display: "inline-block", marginBottom: "1.5rem" }}>

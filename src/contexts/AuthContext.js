@@ -1,5 +1,6 @@
 import { createContext, useState, useCallback } from "react";
 import { daysToMilli } from "../utils/functions";
+import { useUser } from "./UserContext";
 
 export const AuthContext = createContext({
 	isLoggedIn: false,
@@ -14,6 +15,7 @@ export const AuthContextProvider = ({ children }) => {
 	const [token, setToken] = useState(false);
 	const [expiryDate, setExpireDate] = useState();
 	const [userId, setUserId] = useState(false);
+	const {setUserData} = useUser()
 
 	const login = useCallback((uid, token, Expiry) => {
 		setToken(token);
@@ -28,6 +30,7 @@ export const AuthContextProvider = ({ children }) => {
 				ExpiryDate: ExpiryDate.toISOString(),
 			})
 		);
+		// window.location = "/"
 	}, []);
 
 	const logout = useCallback(() => {
@@ -35,7 +38,8 @@ export const AuthContextProvider = ({ children }) => {
 		setToken(null);
 		setExpireDate(null);
 		setUserId(null);
-	}, []);
+		setUserData(null)
+	}, [setUserData]);
 
 	return (
 		<AuthContext.Provider

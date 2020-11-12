@@ -38,8 +38,8 @@ function App() {
 				<div className="App">
 					<Header />
 					<Switch>
-						<Route path="/auth" component={Auth} />
 						<ProtectedRoute exact path="/" component={Home} />
+						<Route path="/auth" component={Auth} />
 						<Redirect to="/" />
 					</Switch>
 				</div>

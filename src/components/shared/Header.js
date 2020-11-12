@@ -15,7 +15,8 @@ import { useAuth } from "../../hooks/auth-hook";
 
 const HeaderRight = styled.div`
 	position: relative;
-	& > div {
+	& > div:first-child {
+		z-index: 5;
 		display: flex;
 		position: relative;
 		align-items: center;
@@ -114,19 +115,19 @@ const Space = styled.span`
 
 const Header = () => {
 	const { userData } = useUser();
-	const { logout } = useAuth();
+	const { logout, isLoggedIn } = useAuth();
 	const [profileOpen, setProfileOpen] = useState(false);
 
 	useEffect(() => {
-		setProfileOpen(prev => prev && !!userData);
-	}, [userData]);
+		setProfileOpen(prev => (prev ? isLoggedIn : false));
+	}, [isLoggedIn]);
 
-	const visible = profileOpen ? "hidden" : "visible";
+	const visible = !profileOpen ? "hidden" : "visible";
 
 	return (
 		<StyledHeader>
 			<Logo />
-			{userData ? (
+			{isLoggedIn ? (
 				<HeaderRight>
 					<div onClick={() => setProfileOpen(prev => !prev)}>
 						<Avatar
