@@ -1,11 +1,12 @@
 .App {
 	width: 100vw;
 	min-height: 100vh;
-	display: flex;
+	display: grid;
 	align-items: center;
 	color: black;
-	justify-content: center;
+	justify-items: center;
 	align-items: center;
+	grid-template-rows: auto 1fr;
 }
 
 @media (prefers-color-scheme: dark) {

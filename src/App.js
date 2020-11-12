@@ -5,6 +5,7 @@ import { useAuth } from "./hooks/auth-hook";
 import { useEffect } from "react";
 import { useHttpClient } from "./hooks/http-hook";
 import { useUser } from "./contexts/UserContext";
+import Header from "./components/shared/Header";
 
 function App() {
 	const { token, login, logout, userId, isLoggedIn } = useAuth();
@@ -28,6 +29,7 @@ function App() {
 	return (
 		<Router>
 			<div className="App">
+				<Header/>
 				<Switch>
 					<Route path="/auth" component={Auth} />
 					<Redirect to="/auth/login" />
