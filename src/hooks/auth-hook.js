@@ -1,10 +1,11 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 let logoutTimer;
 
 export const useAuth = () => {
 	const context = useContext(AuthContext);
+	const [loaded, setLoaded] = useState(false)
 	const { isLoggedIn, token, userId, login, logout, expiryDate } = context;
 	useEffect(() => {
 		const userData = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH_TOKEN));
@@ -13,6 +14,7 @@ export const useAuth = () => {
 		} else {
 			logout();
 		}
+		setLoaded(true)
 	}, [login, logout]);
 
 	useEffect(() => {
@@ -23,5 +25,5 @@ export const useAuth = () => {
 		}
 	}, [token, logout, expiryDate]);
 
-	return { token, login, logout, userId, isLoggedIn };
+	return { loaded, token, login, logout, userId, isLoggedIn };
 };

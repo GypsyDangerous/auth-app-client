@@ -1,12 +1,13 @@
 import { Route, Redirect } from "react-router-dom";
-import firebase from "../../firebase";
+import { useAuth } from "../../hooks/auth-hook";
 
 const ProtectedRoute = ({ component: RouteComponent, ...rest }) => {
+	const { isLoggedIn } = useAuth();
 	return (
 		<Route
 			{...rest}
 			render={routeProps =>
-				firebase.auth.currentUser ? <RouteComponent {...routeProps} /> : <Redirect to="/" />
+				isLoggedIn ? <RouteComponent {...routeProps} /> : <Redirect to="/auth/login" />
 			}
 		/>
 	);
