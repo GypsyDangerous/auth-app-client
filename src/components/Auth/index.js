@@ -28,7 +28,7 @@ const pages = (direction = 1) => ({
 });
 
 const transition = {
-	duration: .25,
+	duration: 0.25,
 	// delay: 0.25,
 };
 
@@ -56,11 +56,16 @@ const Auth = ({ match, history }) => {
 	const location = useLocation();
 
 	return (
-		<AuthComponent height={height}>
+		<AuthComponent
+			animate={{ scale: 1, opacity: 1, rotate: 360 }}
+			initial={{ scale: 0, opacity: 0, rotate: 0 }}
+			transition={{ duration: 0.5, when: "beforeChildren" }}
+			height={height}
+		>
 			<span style={{ display: "inline-block", marginBottom: "1.5rem" }}>
 				<Logo />
 			</span>
-			<AnimatePresence>
+			<AnimatePresence exitBeforeEnter>
 				<Switch location={location} key={location.pathname}>
 					<Route path={`${match.url}/login`}>
 						<motion.div
