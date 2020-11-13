@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import Input from "../shared/FormElements/Input";
 import Form, { ButtonContainer, Footer } from "./Form.styled";
 import MailIcon from "@material-ui/icons/Mail";
@@ -12,8 +12,9 @@ import Icons from "./Icons";
 import ErrorText from "../shared/Error.styled";
 import { useAuth } from "../../hooks/auth-hook";
 import { useHttpClient } from "../../hooks/http-hook";
+import { motion } from "framer-motion";
 
-const Login = () => {
+const Login = forwardRef(({ passdownRef, ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
 		{
 			email: {
@@ -33,7 +34,7 @@ const Login = () => {
 
 	const handleFormSubmit = async e => {
 		e.preventDefault();
-		clearError()
+		clearError();
 		const body = {
 			email: formState.inputs.email.value,
 			password: formState.inputs.password.value,
@@ -46,13 +47,13 @@ const Login = () => {
 				"Content-Type": "application/json",
 			}
 		);
-		if(response){
+		if (response) {
 			login(response.userId, response.token);
 		}
 	};
 
 	return (
-		<div>
+		<>
 			<h1>Login</h1>
 			<Form onSubmit={handleFormSubmit}>
 				<Input
@@ -97,8 +98,8 @@ const Login = () => {
 					Don’t have an account yet? <Link to="/auth/register">Register</Link>{" "}
 				</p>
 			</Footer>
-		</div>
+		</>
 	);
-};
+});
 
 export default Login;

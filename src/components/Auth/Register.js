@@ -1,4 +1,4 @@
-import React from "react";
+import React, {forwardRef} from "react";
 import Input from "../shared/FormElements/Input";
 import Form, { ButtonContainer, Footer } from "./Form.styled";
 import MailIcon from "@material-ui/icons/Mail";
@@ -13,8 +13,10 @@ import { useForm } from "../../hooks/form-hook";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useAuth } from "../../hooks/auth-hook";
 import ErrorText from "../shared/Error.styled";
+import { motion } from "framer-motion";
 
-const Register = () => {
+
+const Register = forwardRef(({passdownRef, ...props}) => {
 	const [formState, inputHandler, setFormData] = useForm(
 		{
 			username: {
@@ -56,7 +58,7 @@ const Register = () => {
 	};
 
 	return (
-		<div>
+		<> 
 			<h1>Join thousands of learners from around the world </h1>
 			<p>
 				Master web development by making real-life projects. There are multiple paths for
@@ -120,8 +122,8 @@ const Register = () => {
 					Already have an account? <Link to="/auth/login">Login</Link>{" "}
 				</p>
 			</Footer>
-		</div>
+		</>
 	);
-};
+})
 
 export default Register;

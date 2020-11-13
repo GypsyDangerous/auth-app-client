@@ -1,12 +1,24 @@
 import styled from "styled-components";
+import {motion} from "framer-motion"
 
-const Auth = styled.div`
+const width="calc(475px - (77px * 2))"
+const Auth = styled(motion.div)`
 	border: 1px solid #bdbdbd;
-	box-sizing: border-box;
+	box-sizing: content-box;
+	position: relative;
+	& > * + * {
+		position: absolute;
+	}
+	& *{
+		max-width: ${width};
+		box-sizing: border-box;
+	}
 	border-radius: 24px;
-	width: 475px;
+	width: ${width};
 	padding: 51px 58px;
-	// height: 640px;
+	transition: height .25s;
+	overflow: hidden;
+	height: ${props => props.height ? `${props.height}px` : "100%"};
 	h1 {
 		font-size: 1.125rem;
 		font-style: normal;
