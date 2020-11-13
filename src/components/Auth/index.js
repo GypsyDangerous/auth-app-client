@@ -22,7 +22,7 @@ const pages = (direction = 1) => ({
 	},
 	initial: {
 		// scale: 0,
-		x: 250 * direction * -1,
+		x: 250 * direction,
 		opacity: 0,
 	},
 });
@@ -65,7 +65,7 @@ const Auth = ({ match, history }) => {
 			<span style={{ display: "inline-block", marginBottom: "1.5rem" }}>
 				<Logo />
 			</span>
-			<AnimatePresence exitBeforeEnter>
+			<AnimatePresence >
 				<Switch location={location} key={location.pathname}>
 					<Route path={`${match.url}/login`}>
 						<motion.div

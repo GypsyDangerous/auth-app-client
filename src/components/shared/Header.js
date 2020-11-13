@@ -12,8 +12,10 @@ import PersonIcon from "@material-ui/icons/Person";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useAuth } from "../../hooks/auth-hook";
+import { useMediaQuery } from "@material-ui/core";
 
 const HeaderRight = styled.div`
+	cursor: pointer;
 	position: relative;
 	& > div:first-child {
 		z-index: 5;
@@ -118,6 +120,8 @@ const Header = () => {
 	const { logout, isLoggedIn } = useAuth();
 	const [profileOpen, setProfileOpen] = useState(false);
 
+	const smallScreen = useMediaQuery("(max-width: 500px)");
+
 	useEffect(() => {
 		setProfileOpen(prev => (prev ? isLoggedIn : false));
 	}, [isLoggedIn]);
@@ -134,7 +138,7 @@ const Header = () => {
 							src={`${process.env.REACT_APP_API_URL}/uploads/images${userData?.photo}`}
 						/>
 
-						<div>{userData?.username}</div>
+						{!smallScreen && <div>{userData?.username}</div>}
 						<Chevron open={profileOpen}>
 							<KeyboardArrowDownIcon />
 						</Chevron>
