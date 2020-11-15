@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const section = styled.div`
+export const section = styled(motion.div)`
 	border-bottom: 1px solid #bdbdbd;
 	padding: 30px 51px;
 	display: flex;
@@ -15,7 +16,7 @@ export const section = styled.div`
 	}
 `;
 
-export const h1 = styled.h1`
+export const h1 = styled(motion.h1)`
 	font-size: 3rem;
 	font-weight: 400;
 	margin: 0;
@@ -23,13 +24,13 @@ export const h1 = styled.h1`
 	line-height: 49.03px;
 `;
 
-export const h2 = styled.h2`
+export const h2 = styled(motion.h2)`
 	font-weight: 300;
 	font-size: 18px;
 	margin: 0;
 `;
 
-export const h3 = styled.h3`
+export const h3 = styled(motion.h3)`
 	font-size: 13px;
 	font-style: normal;
 	font-weight: 500;

@@ -4,6 +4,7 @@ import * as styles from "./styles";
 import InfoSection from "./InfoSection";
 import { useUser } from "../../contexts/UserContext";
 import styled from "styled-components";
+import { AnimatePresence } from "framer-motion";
 
 const Header = styled(styles.h1)`
 	margin-bottom: 1rem;
@@ -15,7 +16,7 @@ const SubTitle = styled(styles.h2)`
 
 const HomeBody = styled(Body)`
 	width: 850px;
-	@media screen and (max-width: 850px){
+	@media screen and (max-width: 850px) {
 		border-left: none;
 		border-right: none;
 		border-radius: 0;
@@ -23,15 +24,42 @@ const HomeBody = styled(Body)`
 	max-width: 100vw;
 `;
 
-const Home = () => {
+const headerVariants = {
+	start: {
+		y: -25,
+		opacity: 0,
+	},
+	end: {
+		y: 0,
+		opacity: 1,
+		transition: {
+			duration: 0.5,
+			staggerChildren: 0.25,
+		},
+	},
+};
+
+const body = {
+	start: {
+		x: 0,
+	},
+	end: {
+		transition: { staggerChildren: 0.1 },
+	},
+	leave: {
+		x: -1000,
+	},
+};
+
+const Home = (props) => {
 	const { userData } = useUser();
 
 	return (
-		<HomeComponent>
-			<Header>Personal Info</Header>
-			<SubTitle>Basic info, like your name and photo</SubTitle>
+		<HomeComponent {...props} initial="start" animate="end" exit="leave" variants={body}>
+			<Header variants={headerVariants}>Personal Info</Header>
+			<SubTitle variants={headerVariants}>Basic info, like your name and photo</SubTitle>
 			<HomeBody>
-				<styles.section>
+				<styles.section variants={headerVariants}>
 					<div>
 						<styles.h1>Profile</styles.h1>
 						<styles.h3>Some info may be visible to other people</styles.h3>

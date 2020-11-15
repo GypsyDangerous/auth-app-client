@@ -1,6 +1,6 @@
 import "./App.scss";
 import Auth from "./components/Auth";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, useLocation } from "react-router-dom";
 import { useAuth } from "./hooks/auth-hook";
 import { useEffect, useState } from "react";
 import { useHttpClient } from "./hooks/http-hook";
@@ -8,9 +8,10 @@ import { useUser } from "./contexts/UserContext";
 import Header from "./components/shared/Header";
 import Home from "./components/users/Home";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
-	const [fullyLoaded, setFullyLoaded] = useState(false)
+	const [fullyLoaded, setFullyLoaded] = useState(false);
 	const { loaded, token, login, logout, userId, isLoggedIn } = useAuth();
 	const { setProfilePicture, setUserData } = useUser();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -24,31 +25,28 @@ function App() {
 				if (data) {
 					setUserData(data);
 					setProfilePicture(data.photo);
-				}else{
-					setUserData(null)
-					setProfilePicture(null)
+				} else {
+					setUserData(null);
+					setProfilePicture(null);
 				}
 			}
-			setFullyLoaded(true)
+			setFullyLoaded(true);
 		})();
 	}, [isLoggedIn, userId, setUserData, setProfilePicture, sendRequest]);
 
+	const location = useLocation();
 
-	return (
-		<Router>
-			{fullyLoaded ? (
-				<div className="App">
-					<Header />
-					<Switch>
-						<ProtectedRoute exact path="/" component={Home} />
-						<Route path="/auth" component={Auth} />
-						<Redirect to="/" />
-					</Switch>
-				</div>
-			) : (
-				"Loading"
-			)}
-		</Router>
+	return fullyLoaded ? (
+		<div className="App">
+			<Header />
+				<Switch location={location} key={location.key}>
+					<ProtectedRoute exact path="/" component={Home} />
+					<Route path="/auth" component={Auth} />
+					<Redirect to="/" />
+				</Switch>
+		</div>
+	) : (
+		"Loading"
 	);
 }
 

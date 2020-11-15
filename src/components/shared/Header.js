@@ -56,7 +56,7 @@ const HeaderProfile = styled(motion.ul)`
 const itemBackground = "#F2F2F2";
 
 const ProfileItem = styled(motion.li)`
-	--bg: ${itemBackground}66;
+	--bg: ${itemBackground}22;
 	color: ${props => (props.warn ? "red" : "inherit")};
 	padding: 0.5rem 1rem;
 	border-radius: 12px;
@@ -69,7 +69,7 @@ const ProfileItem = styled(motion.li)`
 		background: var(--bg);
 	}
 	@media (prefers-color-scheme: dark) {
-		--bg: ${invertHex(itemBackground)}66;
+		--bg: ${invertHex(itemBackground)}22;
 	}
 `;
 
@@ -89,17 +89,19 @@ const item = {
 
 const container = {
 	hidden: {
+		pointerEvents: "none",
 		opacity: 0,
 		top: "-10%",
 		transition: spring,
 	},
 	visible: {
+		pointerEvents: "auto",
 		opacity: 1,
 		top: "100%",
 		transition: {
 			...spring,
 			// when: "beforeChildren",
-			staggerChildren: 0.25,
+			staggerChildren: 0.1,
 		},
 	},
 };
