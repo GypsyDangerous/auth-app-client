@@ -14,6 +14,7 @@ import { useHttpClient } from "../../hooks/http-hook";
 import { useAuth } from "../../hooks/auth-hook";
 import ErrorText from "../shared/Error.styled";
 import { motion } from "framer-motion";
+import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../utils/validators";
 
 
 const Register = forwardRef(({passdownRef, ...props}) => {
@@ -75,6 +76,8 @@ const Register = forwardRef(({passdownRef, ...props}) => {
 							Username
 						</PlaceHolder>
 					}
+					validators={[VALIDATOR_REQUIRE()]}
+					helpText="Username is required"
 					type="text"
 					name="username"
 					id="username"
@@ -90,6 +93,8 @@ const Register = forwardRef(({passdownRef, ...props}) => {
 							Email
 						</PlaceHolder>
 					}
+					validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+					helpText="Invalid or Missing Email"
 					type="email"
 					name="email"
 					id="email"
@@ -105,6 +110,8 @@ const Register = forwardRef(({passdownRef, ...props}) => {
 							Password
 						</PlaceHolder>
 					}
+					validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
+					helpText="Invalid Password, minimum 6 characters"
 					type="password"
 					id="password"
 					name="create-password"

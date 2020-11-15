@@ -13,6 +13,7 @@ import ErrorText from "../shared/Error.styled";
 import { useAuth } from "../../hooks/auth-hook";
 import { useHttpClient } from "../../hooks/http-hook";
 import { motion } from "framer-motion";
+import {VALIDATOR_EMAIL, VALIDATOR_REQUIRE, VALIDATOR_MIN, VALIDATOR_MINLENGTH} from "../../utils/validators"
 
 const Login = forwardRef(({ passdownRef, ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -66,12 +67,16 @@ const Login = forwardRef(({ passdownRef, ...props }) => {
 							Email
 						</PlaceHolder>
 					}
+					helpText="Invalid Email"
+					validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE()]}
 					type="email"
 					id="email"
 					name="email"
 					required
-				/>
+					/>
 				<Input
+					validators={[ VALIDATOR_MINLENGTH(6), VALIDATOR_REQUIRE()]}
+					helpText="Invalid Password, minimum 6 characters"
 					onInput={inputHandler}
 					placeholder={
 						<PlaceHolder style={{ display: "flex", alignItems: "center" }}>

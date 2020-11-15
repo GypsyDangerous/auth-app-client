@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState, useCallback } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
 import FilledInput from "@material-ui/core/FilledInput";
@@ -24,14 +24,16 @@ const useStyles = makeStyles(theme => ({
 const inputReducer = (state, action) => {
 	switch (action.type) {
 		case "CHANGE":
+			const valid = validate(action.val, action.validators)
 			return {
 				...state,
 				value: action.val,
-				isValid: validate(action.val, action.validators),
+				isValid: valid ? valid : state.isValid 
 			};
 		case "TOUCH":
 			return {
 				...state,
+				isValid: validate(action.val, action.validators),
 				isTouched: true,
 			};
 		default:
@@ -42,7 +44,7 @@ const inputReducer = (state, action) => {
 const CustomInput = props => {
 	const [inputState, dispatch] = useReducer(inputReducer, {
 		value: props.value || "",
-		isValid: !!props.value,
+		isValid: !props.value,
 		isTouched: false,
 	});
 	const [labelSize, setLabelSize] = useState(0);
@@ -60,11 +62,12 @@ const CustomInput = props => {
 	}, [id, value, isValid, onInput]);
 
 	const changeHandler = e => {
-		dispatch({ type: "CHANGE", val: e.target.value, validators: props.validators||[] });
+		dispatch({ type: "CHANGE", val: e.target.value, validators: props.validators || [] });
 	};
 
-	const touchHandler = () => {
-		dispatch({ type: "TOUCH" });
+	const touchHandler = e => {
+		console.log(e.target.value.trim().length)
+		dispatch({ type: "TOUCH", val: e.target.value, validators: props.validators || [] });
 	};
 
 	const elt =
@@ -97,8 +100,8 @@ const CustomInput = props => {
 	const classes = useStyles();
 	return (
 		<FormControl
-			FormControl
-			className={clsx(classes.margin, classes.textField)}
+			error={inputState.isTouched && !inputState.isValid}
+			className={clsx(classes.margin)}
 			variant="outlined"
 		>
 			<InputLabel ref={calculateLabelSize} htmlFor={props.id}>
@@ -107,6 +110,7 @@ const CustomInput = props => {
 			<OutlinedInput
 				required={props.required}
 				id={props.id}
+				onBlur={touchHandler}
 				name={props.name}
 				type={props.type === "password" ? (showPassword ? "text" : "password") : props.type}
 				value={inputState.value}
@@ -134,6 +138,9 @@ const CustomInput = props => {
 				}
 				labelWidth={labelSize}
 			/>
+			{inputState.isTouched && !inputState.isValid && (
+				<FormHelperText id="standard-weight-helper-text">{props.helpText}</FormHelperText>
+			)}
 		</FormControl>
 	);
 };
