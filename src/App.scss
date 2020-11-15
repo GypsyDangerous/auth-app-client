@@ -8,6 +8,7 @@
 	align-items: center;
 	grid-template-rows: auto 1fr;
 	padding-bottom: 5rem;
+	overflow-x: hidden;
 }
 
 @media (prefers-color-scheme: dark) {

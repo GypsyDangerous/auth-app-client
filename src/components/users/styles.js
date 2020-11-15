@@ -20,7 +20,6 @@ export const h1 = styled(motion.h1)`
 	font-size: 3rem;
 	font-weight: 400;
 	margin: 0;
-	margin-left: .5rem;
 	line-height: 49.03px;
 `;
 

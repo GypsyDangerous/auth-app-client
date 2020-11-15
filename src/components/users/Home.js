@@ -5,6 +5,9 @@ import InfoSection from "./InfoSection";
 import { useUser } from "../../contexts/UserContext";
 import styled from "styled-components";
 import { AnimatePresence } from "framer-motion";
+import { useCallback, useReducer, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import Button from "../shared/FormElements/Button";
 
 const Header = styled(styles.h1)`
 	margin-bottom: 1rem;
@@ -39,43 +42,130 @@ const headerVariants = {
 	},
 };
 
-const body = {
+const body = (dir = 1) => ({
 	start: {
-		x: 0,
+		x: 1000 * dir,
 	},
 	end: {
-		transition: { staggerChildren: 0.1 },
+		x: 0,
+		transition: { when: "beforeChildren", staggerChildren: 0.1, duration: 0.35 },
 	},
 	leave: {
-		x: -1000,
+		// position: "absolute",
+		x: 1000 * dir,
+		opacity: 0,
+		transition: { duration: 0.35 },
 	},
+});
+
+const Actions = {
+	update: "UPDATE"
 };
 
-const Home = (props) => {
+const reducer = (state, action) => {
+	switch (action.type) {
+		case Actions.update:
+			return { ...state, [action.key]: action.value };
+		default:
+			return state;
+	}
+};
+
+const Home = props => {
 	const { userData } = useUser();
+	const [editing, setEditing] = useState(false);
+	const [file, setFile] = useState();
+	const [formData, dispatch] = useReducer(reducer, {...userData});
+
+	const save = () => {
+		if(file){
+			
+		}
+	}
 
 	return (
-		<HomeComponent {...props} initial="start" animate="end" exit="leave" variants={body}>
-			<Header variants={headerVariants}>Personal Info</Header>
-			<SubTitle variants={headerVariants}>Basic info, like your name and photo</SubTitle>
-			<HomeBody>
-				<styles.section variants={headerVariants}>
-					<div>
-						<styles.h1>Profile</styles.h1>
-						<styles.h3>Some info may be visible to other people</styles.h3>
-					</div>
-					<div>
-						<styles.button>Edit</styles.button>
-					</div>
-				</styles.section>
-				<InfoSection name="Photo" value={userData?.photo} img />
-				<InfoSection name="Name" value={userData?.username} />
-				<InfoSection name="Bio" value={userData?.bio} placeholder="No Bio..." />
-				<InfoSection name="Phone" value={userData?.phone} placeholder="No Phone..." />
-				<InfoSection name="Email" value={userData?.email} />
-				<InfoSection name="Password" value="*********" />
-			</HomeBody>
-		</HomeComponent>
+		<AnimatePresence exitBeforeEnter>
+			{!editing ? (
+				<HomeComponent
+					{...props}
+					initial="start"
+					animate="end"
+					exit="leave"
+					key="info"
+					variants={body(1)}
+				>
+					<Header variants={headerVariants}>Personal Info</Header>
+					<SubTitle variants={headerVariants}>
+						Basic info, like your name and photo
+					</SubTitle>
+					<HomeBody>
+						<styles.section variants={headerVariants}>
+							<div>
+								<styles.h1>Profile</styles.h1>
+								<styles.h3>Some info may be visible to other people</styles.h3>
+							</div>
+							<div>
+								<styles.button onClick={() => setEditing(prev => !prev)}>
+									Edit
+								</styles.button>
+							</div>
+						</styles.section>
+						<InfoSection name="Photo" value={userData?.photo} img />
+						<InfoSection name="Name" value={userData?.username} />
+						<InfoSection name="Bio" value={userData?.bio} placeholder="No Bio..." />
+						<InfoSection
+							name="Phone"
+							value={userData?.phone}
+							placeholder="No Phone..."
+						/>
+						<InfoSection name="Email" value={userData?.email} />
+						<InfoSection name="Password" value="*********" />
+					</HomeBody>
+				</HomeComponent>
+			) : (
+				<HomeComponent
+					{...props}
+					initial="start"
+					animate="end"
+					exit="leave"
+					variants={body(-1)}
+					key="edit"
+				>
+					<HomeBody>
+						<styles.section variants={headerVariants}>
+							<div>
+								<styles.h1>Profile</styles.h1>
+								<styles.h3>Some info may be visible to other people</styles.h3>
+							</div>
+							<div>
+								<styles.button onClick={() => setEditing(prev => !prev)}>
+									Edit
+								</styles.button>
+							</div>
+						</styles.section>
+						<InfoSection
+							name="Photo"
+							file={file}
+							setFile={setFile}
+							value={formData?.photo}
+							img
+						/>
+						<InfoSection name="Name" value={userData?.username} />
+						<InfoSection name="Bio" value={userData?.bio} placeholder="No Bio..." />
+						<InfoSection
+							name="Phone"
+							value={userData?.phone}
+							placeholder="No Phone..."
+						/>
+						<InfoSection name="Email" value={userData?.email} />
+						<InfoSection name="Password" value="*********" />
+						<styles.section>
+							<Button color="primary">Save</Button>
+						</styles.section>
+					</HomeBody>
+				</HomeComponent>
+			)}
+		</AnimatePresence>
 	);
 };
 
