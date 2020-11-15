@@ -10,6 +10,12 @@ import Home from "./components/users/Home";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import { AnimatePresence } from "framer-motion";
 
+const { createApolloFetch } = require("apollo-fetch");
+
+const Fetch = createApolloFetch({
+	uri: `${process.env.REACT_APP_API_URL}/graphql`,
+});
+
 function App() {
 	const [fullyLoaded, setFullyLoaded] = useState(false);
 	const { loaded, token, login, logout, userId, isLoggedIn } = useAuth();
@@ -19,9 +25,21 @@ function App() {
 	useEffect(() => {
 		(async () => {
 			if (isLoggedIn && userId) {
-				const data = await sendRequest(
-					`${process.env.REACT_APP_API_URL}/api/v1/users/get/${userId}`
-				);
+				const data = (await Fetch({
+					query: `
+					query GetUser($id: ID!){
+						user(id: $id){
+							bio
+							phone
+							username
+							email
+							photo
+						}
+					}`,
+					variables: { id: userId },
+				}))?.data?.user;
+
+
 				if (data) {
 					setUserData(data);
 					setProfilePicture(data.photo);
@@ -39,11 +57,11 @@ function App() {
 	return fullyLoaded ? (
 		<div className="App">
 			<Header />
-				<Switch location={location} key={location.key}>
-					<ProtectedRoute exact path="/" component={Home} />
-					<Route path="/auth" component={Auth} />
-					<Redirect to="/" />
-				</Switch>
+			<Switch location={location} key={location.key}>
+				<ProtectedRoute exact path="/" component={Home} />
+				<Route path="/auth" component={Auth} />
+				<Redirect to="/" />
+			</Switch>
 		</div>
 	) : (
 		"Loading"
