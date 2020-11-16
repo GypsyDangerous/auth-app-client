@@ -8,6 +8,11 @@ import { AnimatePresence } from "framer-motion";
 import { useCallback, useReducer, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Button from "../shared/FormElements/Button";
+const { createApolloFetch } = require("apollo-fetch");
+
+const Fetch = createApolloFetch({
+	uri: `${process.env.REACT_APP_API_URL}/graphql`,
+});
 
 const Header = styled(styles.h1)`
 	margin-bottom: 1rem;
@@ -79,7 +84,7 @@ const Home = props => {
 
 	const save = () => {
 		if(file){
-			
+
 		}
 	}
 
